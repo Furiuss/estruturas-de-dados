@@ -13,22 +13,25 @@ class MaxHeap:
     
     def _swap(self, index1, index2):
         self.heap[index1], self.heap[index2] = self.heap[index2], self.heap[index1]
-        
-    def _sink_down(self, index):
-        current = self.heap[index]
-        left_child = self._left_child(index)
-        right_child = self._right_child(index)
-        
-        while current < (len(self.heap) - 1) and self.heap[right_child] > current and self.heap[left_child] > current:
-            if (self.heap[left_child] > self.heap[right_child]):
-                self._swap(index, self._left_child[index])
-                current = left_child
-            else:
-                self._swap(index, self._right_child[index])
-                current = right_child
-            left_child = self._left_child(index)
-            right_child = self._right_child(index)
     
+    def _sink_down(self, index):
+        max_index = index
+        while True:
+            left_index = self._left_child(index)
+            right_index = self._left_child(index)
+            
+            if left_index < len(self.heap) and self.heap[left_index] > self.heap[max_index]:
+                max_index = left_index
+                
+            if right_index < len(self.heap) and self.heap[right_index] > self.heap[max_index]:
+                max_index = right_index
+            
+            if max_index != index:
+                self._swap(index, max_index)
+                index = max_index
+            else:
+                return
+            
     def insert(self, value):
         self.heap.append(value)
         current = len(self.heap) - 1
@@ -63,5 +66,9 @@ myheap.insert(100)
 print(myheap.heap)
 
 myheap.insert(75)
+
+print(myheap.heap)
+
+myheap.remove()
 
 print(myheap.heap)
